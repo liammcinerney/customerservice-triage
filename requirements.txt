@@ -1,0 +1,4 @@
+# Direct dependencies, pinned. Install with: python -m pip install -r requirements.txt
+anthropic==2.10.0
+pydantic==2.14.3
+pytest==9.2.0

@@ -1,0 +1,98 @@
+# Challenge set: hand-written test emails
+#
+# Write 5 emails that, from your customer care experience, you think the model could
+# struggle with. Label each one the way you would want it handled.
+#
+#   python -m eval.challenge check   what's still to fill in, and any problems (no API calls)
+#   python -m eval.challenge run     run the pipeline on these emails and score them (API calls)
+#   python -m eval.challenge score   re-score the last run after editing labels (no API calls)
+#
+# SYNTHETIC DATA ONLY. Write from experience, but invent every name, address, order
+# number and detail. Never paste a real customer's email. Sender addresses must end in example.com.
+#
+# Replace every TODO. Field guide:
+#   why_hard          what you expect the model to struggle with (shown in the report)
+#   sender, subject   in "...", write \" for a double quote; apostrophes are fine
+#   body              between ''' marks: write anything over as many lines as you like
+#                     (except three single quotes in a row)
+#   category          "order_status" | "store_enquiry" | "loyalty_programme" |
+#                     "warranty_claim" | "complaint" | "compliment" | "other_or_spam"
+#   needs_human       true or false (no quotes): should a person handle this?
+#   urgency           optional: "high" | "normal" | "low", or "" to skip
+#   expected_reasons  the signals the keyword rules should catch, any of:
+#                       "legal threat", "regulator complaint", "possible injury",
+#                       "media or social media threat", "chargeback threat",
+#                       "possible prompt injection"
+#                     [] if none
+#   order_numbers     EVERY order number in the email; all of them must be extracted.
+#                     [] if there are none. Order numbers are 9 digits starting with 1,
+#                     written WITHOUT the #, for example ["100046249"] or
+#                     ["100043249", "100085626"]
+#   store, product    list of acceptable answers, each copied word for word from the
+#                     subject or body, for example ["Richmond", "Richmond store"];
+#                     [] if nothing should be extracted
+#   notes             optional: anything about how you labelled it
+#
+# How the pipeline decides who handles an email, so your labels and the results line up:
+#   - warranty_claim, complaint and compliment always go to a person
+#   - any expected_reasons signal sends the email to a person
+#   - an email the model rates "high" urgency goes to a person
+
+[[email]]
+id = "c01"
+why_hard = "This email will contain sarcasm, which may be difficult for the model to detect."
+sender = "Jim Smith <JS@example.com>"
+subject = "How great is AI"
+body = '''
+Hello, Just wanted to leave some feedback. There is nothing better than going to an online store's chat window and talking to an AI chatbot when you're looking for club recommendations. 
+I really want to be taking club advice from a bot. Seriously, something needs to be done about that. Jim'
+'''
+
+  [email.label]
+  category = "complaint"
+  needs_human = true
+  urgency = "normal"
+  expected_reasons = []
+  order_numbers = []
+  store = []
+  product = []
+  notes = "Difficulty: sarcasm."
+
+[[email]]
+id = "c02"
+why_hard = "This email will be a positive feedback email, about a customer being happy with service from a store. There is no positive feedback category, so it will be interesting to see how the model handles it."
+sender = "Jane Glackin <janeg@example.com>"
+subject = "Great Service at the Richmond Store"
+body = '''
+Hello, Just wanted to say how incredible the service is at the Richmond store. Especially that salesperson James, he was attentive and helped me with anything I needed.
+'''
+
+  [email.label]
+  category = "compliment"
+  needs_human = true
+  urgency = "normal"
+  expected_reasons = []
+  order_numbers = []
+  store = ["Richmond"]
+  product = []
+  notes = "Difficulty: positive review. First run (no positive feedback category) I labelled it complaint; relabelled compliment when that category was added 2026-11-19."
+
+[[email]]
+id = "c03"
+why_hard = "This email will contain multiple order numbers."
+sender = "David Evans <Devans@example.com>"
+subject = "Check updates for my orders"
+body = '''
+Hello,
+I put through a couple orders with your online store last week (#100043249 and #100085626), was just hoping to get an update on how those were tracking. Thanks
+'''
+
+  [email.label]
+  category = "order_status"
+  needs_human = false
+  urgency = "normal"
+  expected_reasons = []
+  order_numbers = ["100043249", "100085626"]
+  store = []
+  product = []
+  notes = "Difficulty: multiple order numbers. Both must be saved (order_numbers became a list 2026-11-19, prompt v4). Urgency relabelled low -> normal 2026-11-19: I accepted the rubric's 'customer waiting on their own order' = normal. Store is [] because online orders have no physical store."
