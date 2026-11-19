@@ -8,7 +8,7 @@ A command-line tool that triages customer care emails for **Fairway Supply**, a 
 
 It's based on work I did by hand at Drummond Golf, handling customer emails, complaints and warranty claims across 53 stores.
 
-- **Demo video:** _to be added_
+- **Demo video:** [watch on Google Drive](https://drive.google.com/file/d/1EIS86HbZGLIWgpxYuVU-hKtj0NbBykSD/view?usp=sharing)
 - **How it was planned and built with an AI coding agent:** [`planning/`](planning/), especially the [AI log](planning/03-ai-log.md)
 - **Agent session log:** [`logs/session-01.md`](logs/session-01.md)
 
