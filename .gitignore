@@ -12,3 +12,6 @@ out/
 
 # macOS
 .DS_Store
+
+# Editor / R session files
+.Rhistory

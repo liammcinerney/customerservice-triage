@@ -10,6 +10,19 @@ It's based on work I did by hand at Drummond Golf, handling customer emails, com
 
 - **Demo video:** _to be added_
 - **How it was planned and built with an AI coding agent:** [`planning/`](planning/), especially the [AI log](planning/03-ai-log.md)
+- **Agent session log:** [`logs/session-01.md`](logs/session-01.md)
+
+---
+
+## AI tools used
+
+| Tool | Used for |
+| --- | --- |
+| **Claude Code** (Claude desktop app, model Claude Opus 5.5) | The coding agent for the whole build. Plan mode first; then every step implemented, tested and debugged in small steps under the rules in [`CLAUDE.md`](CLAUDE.md) |
+| Claude (chat) | Comparing project ideas before the build ([`planning/00-ideation.md`](planning/00-ideation.md)) |
+| Claude Opus 5.5 via the Anthropic API | Inside the product: one call per email to classify, extract and summarise |
+
+**Where the agent helped, where it failed, and how I corrected it** is recorded in two places. [`planning/03-ai-log.md`](planning/03-ai-log.md) holds the decisions and before/after results. [`logs/session-01.md`](logs/session-01.md) is a request-by-request log of the session, including a table of all 24 mistakes the agent made and how each was fixed. The agent reconstructed that log from the session; it isn't a verbatim transcript export.
 
 ---
 
@@ -174,6 +187,7 @@ Two hand-checked test sets, scored by [`eval/run.py`](eval/run.py) and [`eval/ch
 
 ### Honest limits
 
+- **The weakest part is the evidence behind the safety net.** The keyword rules and most of the test emails were written in the same session by the same agent. A legal threat or prompt injection phrased in a way the rules don't expect would rely on the model alone, and my three challenge emails found three real problems, which shows how thin the coverage is. The fix I'd make next is a much larger hand-written challenge set, to measure how often the rules miss.
 - **The sets are small.** One miss on the main set moves recall by about 12 points, and runs vary because current models don't allow setting temperature. Fixes were confirmed with repeat runs where it mattered.
 - **The main set is easy.** The agent that wrote the prompt also drafted the emails and the keyword rules, so a perfect score there says little. The challenge set found the real gaps.
 - **Two labels were changed after seeing model output, and that's disclosed in the AI log.** e07 (a frustrated third chase with a chargeback threat) was relabelled from order status to complaint, based on my customer care judgment. c03's urgency was relabelled from low to normal.
@@ -194,6 +208,11 @@ planning/
   01-brief.md        the project brief
   02-plan.md         the build plan agreed in plan mode, with changes along the way
   03-ai-log.md       where the AI helped, failed, and how I corrected it
+  04-demo-runbook.md step-by-step plan for the demo video
+logs/
+  session-01.md      the agent's request-by-request session log, with every mistake and fix
+demo/
+  emails/            three synthetic emails for the live part of the demo
 data/
   emails.jsonl       main set: 17 synthetic emails
   labels.jsonl       hand-checked expected answers

@@ -1,7 +1,7 @@
 # Build plan: email triage assistant
 
 > **Status (2026-11-19):** Steps 0–9 are done, plus the challenge set (Step 8b) and the changes it led to (prompt v4).
-> Left for me: export the agent session logs into `logs/`, record the demo video, and create the public GitHub repo.
+> Since then: the public GitHub repo was created and pushed, the session log was added (`logs/session-01.md`), and the demo runbook was written (`04-demo-runbook.md`). Left for me: record the demo video and add its link to the README.
 > This plan was written before the build; the "Change after approval" and "Changes from the challenge set" sections record where the build departed from it.
 
 ## Context
