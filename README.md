@@ -90,7 +90,7 @@ Put your Anthropic API key in `.env` after `ANTHROPIC_API_KEY=`. `.env` is git-i
 | --- | --- | --- |
 | Triage the emails | `python -m triage.cli data/emails.jsonl` | yes, one per email |
 | Triage one email live: prints the result, adds it to `out/live.jsonl`, rebuilds `out/queue.html` | `python -m triage.cli --single --subject "..." --sender "..." < email.txt` (or `--file email.txt`) | yes, one |
-| Remove all live entries (e.g. before recording a demo) | `python -m triage.cli --clear-live` | no |
+| Remove all live entries (to start fresh) | `python -m triage.cli --clear-live` | no |
 | Run the eval (main set) | `python -m eval.run` | yes |
 | Re-score saved output | `python -m eval.run --from out/triage.jsonl` | no |
 | Rebuild the HTML report from saved output | `python -m triage.report` | no |
@@ -208,11 +208,8 @@ planning/
   01-brief.md        the project brief
   02-plan.md         the build plan agreed in plan mode, with changes along the way
   03-ai-log.md       where the AI helped, failed, and how I corrected it
-  04-demo-runbook.md step-by-step plan for the demo video
 logs/
   session-01.md      the agent's request-by-request session log, with every mistake and fix
-demo/
-  emails/            three synthetic emails for the live part of the demo
 data/
   emails.jsonl       main set: 17 synthetic emails
   labels.jsonl       hand-checked expected answers
